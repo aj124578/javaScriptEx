@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="postBox">
+        <table id="postBox-table" border="1">
+            <tr>
+                <td>번호</td>
+                <td>제목</td>
+                <td>내용</td>
+                <td>작성자</td>
+            </tr>
+        </table>
+    </div>
+    <button onclick="down()">다운로드</button>
+
+    <script>
+
+        async function down() { // 실행(단일스레드) > cpu가 await에서 멈춤 context를 기록해놓고, async를 붙이면 멈춘 지점에서 cpu는 스택을 빠져나옴. 자기가 할일 다하고 다시 체크포인트로 돌아감 / async를 안붙이면 멈춘지점에서 동기화되어 멈춰있는 상태가 됨
+            let response = await fetch("http://192.168.200.58:8080/init/post", { // await라는 체크포인트를 검
+                method:"get"                        // 기본적으로 get 요청
+                
+            });                                         // {}는 java스크립트에서 오브젝트 타입
+            let jsObject = await response.json();     // response의 데이터를 json으로 바꿔서 변수에 넣어줌
+            console.log(jsObject);
+            console.log(jsObject.data[0].title);
+            render(jsObject);
+        }
+
+    function render(jsObject) {
+        let tableEl = document.querySelector("#postBox-table");
+        for (let i = 0; i < jsObject.data.length; i++) {
+            let tr = makeTr(jsObject.data[i]);
+            tableEl.append(tr);
+        }
+    }
+            function makeTr(post) {
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${post.id}</td>
+                <td>${post.title}</td>
+                <td id=${post.id}>${post.content}</td> 
+                <td>${post.user.username}</td>
+            `;
+                return tr;
+            }
+
+
+    </script>
+
+</body>
+
+</html>

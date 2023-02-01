@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/0d1c1758fd.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://kit.fontawesome.com/0d1c1758fd.css" crossorigin="anonymous">
+    <style>
+        .my-xl{
+            font-size: 300px;
+        }
+        .my-cursor{
+            cursor: pointer;
+        }
+        .my-cursor:hover{
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <i id="heart" class="fa-regular fa-solid  fa-heart my-xl my-cursor" value="ok"></i> <!-- value값을 미리 심어놓고 이걸로 체크하는게 좋음 -->
+    <script>
+        $("#heart").click(()=>{
+            let value =  $("#heart").val();
+            if(value == "ok"){
+                $("#heart").removeClass("fa-solid");
+                $("#heart").val("no");
+            }else{
+                $("#heart").addClass("fa-solid");
+                $("#heart").val("ok");
+            }
+            // $("#heart").toggleClass("fa-solid");
+            // $("#heart").removeClass("fa-regular");
+            // $("#heart").addClass("fa-solid");
+        });
+    </script>
+</body>
+
+</html>
